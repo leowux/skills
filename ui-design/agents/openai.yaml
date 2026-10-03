@@ -1,0 +1,4 @@
+interface:
+  display_name: "UI Design"
+  short_description: "将二十条 UI 原则转成可执行的界面设计、优化与视觉检查"
+  default_prompt: "使用 $ui-design 优化当前界面的视觉层级、布局与可读性，并检查移动端和空状态。"

@@ -1,0 +1,157 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>衡序 · 项目工作台</title>
+<style>
+:root{--brand:#173d73;--text:#202d40;--muted:#536176;--border:#c6ced9;--radius:5px;--surface:#fff;--canvas:#f4f6f9}
+*{box-sizing:border-box}[hidden]{display:none!important}body{margin:0;font:14px/1.5 system-ui,-apple-system,"PingFang SC",sans-serif;color:var(--text);background:var(--canvas)}
+header{display:flex;align-items:center;gap:48px;background:#fff;border-bottom:1px solid #dce2ea;padding:0 32px;min-height:64px}header strong{color:var(--brand);letter-spacing:.04em}header>span{margin-left:auto;color:var(--muted);font-size:13px}nav{display:flex;gap:28px;align-self:stretch}nav a{display:flex;align-items:center;color:var(--muted);font-weight:500;text-decoration:none;border-bottom:3px solid transparent;padding-top:3px}nav a[aria-current]{color:var(--brand);font-weight:650;border-color:var(--brand)}
+main{padding:28px 32px 16px;max-width:1600px;margin:auto;min-width:0}h1{font-size:28px;line-height:1.25;font-weight:650;margin:0 0 8px;letter-spacing:-.02em}h2{font-size:17px;line-height:1.4;font-weight:650;margin:0}.subtitle{font-size:14px;color:var(--muted);margin:0}.page-heading{display:flex;align-items:center;justify-content:space-between;gap:24px;margin-bottom:24px}.actions{display:flex;gap:8px;flex-wrap:wrap}
+button{font:inherit;font-weight:550;border:1px solid var(--border);border-radius:var(--radius);padding:9px 14px;min-height:40px;cursor:pointer;background:#fff;color:var(--text);white-space:nowrap}button:hover{background:#eef2f7;border-color:#8595aa}.primary{background:var(--brand);border-color:var(--brand);color:#fff}.primary:hover{background:#102f5c;border-color:#102f5c}.export{background:#fff}.danger{color:#a22234;border-color:#d4a4ac;background:#fff}.danger:hover{background:#fff0f2;border-color:#a22234}button:disabled{color:#687588;background:#f0f2f5;border-color:#d7dde5;cursor:not-allowed}button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,.table-wrap:focus-visible{outline:3px solid #376dbc;outline-offset:3px}
+.metrics{display:grid;grid-template-columns:1fr 1fr 1.5fr;background:#fff;border:1px solid #dce2ea;border-radius:var(--radius);margin-bottom:20px;padding:16px 0}.metric{padding:0 24px}.metric+.metric{border-left:1px solid #e1e6ed}.metric span{font-size:13px;color:var(--muted)}.metric strong{display:block;font-size:26px;line-height:1.35;font-weight:650;margin-top:3px;font-variant-numeric:tabular-nums}
+.workspace{display:grid;gap:16px;min-width:0}.panel{border:1px solid #dce2ea;border-radius:var(--radius);background:#fff;min-width:0}.list-heading{display:flex;align-items:baseline;justify-content:space-between;gap:12px;padding:18px 20px 14px}.list-heading span{color:var(--muted);font-size:13px}.filters{display:flex;gap:12px;align-items:end;padding:0 20px 16px;flex-wrap:wrap}.filter-field{display:grid;gap:5px}.filters label{color:var(--muted);font-size:13px}.search-field{flex:1;max-width:390px;min-width:220px}input,select{font:inherit;color:var(--text);border:1px solid var(--border);padding:9px 11px;border-radius:var(--radius);background:#fff;min-height:40px}input{width:100%}input::placeholder{color:#626f80}#search{width:100%}select{min-width:144px}#clearFilters{background:transparent}.table-hint{display:none}
+.table-wrap{width:100%;max-width:100%;overflow:auto;border-top:1px solid #e1e6ed}table{border-collapse:separate;border-spacing:0;min-width:1090px;width:100%;font-size:13px}th,td{padding:11px 14px;text-align:left;border-bottom:1px solid #e5e9ef;vertical-align:middle}th{background:#f5f7fa;font-size:12px;font-weight:600;color:var(--muted);white-space:nowrap}tbody tr:last-child td{border-bottom:0}tbody tr:hover td{background:#f5f8fc}tbody tr:has(input:checked) td{background:#edf3fc}td.name{min-width:240px;max-width:300px;font-size:14px;line-height:1.5;font-weight:550}td:not(.name){white-space:nowrap}th:first-child,td:first-child{width:52px;text-align:center;padding:0 8px}input[type=checkbox]{width:18px;height:18px;min-height:0;accent-color:var(--brand);vertical-align:middle;cursor:pointer}td:first-child label{display:flex;align-items:center;justify-content:center;min-height:44px;min-width:36px;cursor:pointer}td:nth-child(5),th:nth-child(5),td:nth-child(7),th:nth-child(7){text-align:right;font-variant-numeric:tabular-nums}td:nth-child(4){color:var(--muted)}td:last-child{font-variant-numeric:tabular-nums}.badge{display:inline-block;background:#e9f2ed;color:#24553d;padding:3px 8px;border-radius:4px;font-size:12px;font-weight:550}.badge.warning{background:#fff3dc;color:#725017}.badge.done{background:#edf0f5;color:#48576b}.positive{color:#24553d}.negative{color:#a22234}.neutral{color:var(--muted)}
+.detail{display:grid;grid-template-columns:170px 260px minmax(0,1fr);gap:24px;padding:20px;align-items:start}.detail h2{font-size:15px;margin-bottom:10px}.detail p{margin:0 0 4px;overflow-wrap:anywhere}.contact-name{font-size:16px;font-weight:600}.detail small{font-size:13px;color:var(--muted)}.contact-meta,.project-note{font-size:13px;color:var(--muted)}.project-note{line-height:1.7}.project-note strong{display:block;color:var(--text);font-weight:600;margin-bottom:4px}
+.empty{padding:48px 20px;text-align:center;border-top:1px solid #e1e6ed;color:var(--muted)}.empty h3{font-size:18px;color:var(--text);margin:0 0 8px}.empty p{margin:0 auto 20px;max-width:440px}.empty-symbol{display:inline-grid;place-items:center;width:40px;height:40px;border-radius:5px;color:var(--brand);background:#edf2fa;font-size:22px;margin-bottom:16px}.error-symbol{color:#a22234;background:#fff0f2}
+dialog{width:min(480px,calc(100vw - 32px));max-height:calc(100dvh - 32px);overflow:auto;border:1px solid var(--border);border-radius:6px;padding:24px;color:var(--text);box-shadow:0 18px 70px #142b4c30}dialog::backdrop{background:#14243d66}dialog h2{font-size:21px;margin-bottom:8px}.dialog-intro{color:var(--muted);font-size:13px;margin:0 0 24px}form label{display:block;margin-bottom:6px;font-size:14px;font-weight:550}.field{margin-bottom:18px}.dialog-actions{display:flex;gap:8px;justify-content:flex-end;margin-top:24px}#confirmDelete{color:white;background:#a22234;border-color:#a22234}#confirmDelete:hover{background:#851d2c}#feedback{min-height:20px;color:var(--muted);font-size:13px;margin:0;padding:10px 20px;border-top:1px solid #e5e9ef}footer{font-size:12px;color:var(--muted);padding:8px 32px 24px;max-width:1600px;margin:auto}
+@media(min-width:1550px){.workspace{grid-template-columns:minmax(0,1fr) 240px}.detail{display:block;padding:20px}.contact-meta{margin:18px 0 24px}.project-note{padding-top:18px;border-top:1px solid #e5e9ef}}
+@media(max-width:760px){header{padding:0 16px;gap:24px;flex-wrap:wrap;min-height:60px}header strong{font-size:13px}header>span{display:none}nav{gap:18px;min-height:60px;margin-left:auto}main{padding:22px 16px 12px}.page-heading{align-items:start;flex-direction:column;gap:16px;margin-bottom:20px}h1{font-size:24px}.actions{gap:8px;width:100%}.actions button{padding:9px 11px;min-height:44px}.metrics{padding:14px 0;margin-bottom:16px;grid-template-columns:1fr 1fr 1.5fr}.metric{padding:0 12px}.metric span{font-size:12px}.metric strong{font-size:21px}.metric:last-child strong{font-size:20px}.list-heading{padding:16px 14px 12px}.filters{padding:0 14px 12px;gap:10px}.search-field{max-width:none;min-width:0;flex-basis:100%}.filter-field:not(.search-field){flex:1}select{width:100%;min-width:0}input,select,button{min-height:44px}.table-hint{display:block;margin:0;padding:0 14px 10px;color:var(--muted);font-size:12px}th,td{padding:9px 12px}th:first-child,td:first-child{position:sticky;left:0;z-index:1;background:#fff}th:first-child{background:#f5f7fa}.detail{grid-template-columns:1fr;gap:12px;padding:16px}.detail h2{margin-bottom:6px}.contact-meta{display:flex;flex-wrap:wrap;gap:4px 20px}.project-note{padding-top:12px;border-top:1px solid #e5e9ef}.empty{padding:36px 16px}footer{padding:8px 16px 20px}dialog{padding:22px}.subtitle{font-size:13px}}
+
+/* Display changes share one table and one selection state. */
+header strong{font-size:16px;letter-spacing:.025em}
+button{transition:background .12s,border-color .12s}
+button.primary span{font-size:17px;line-height:1;vertical-align:-1px}
+.list-heading{padding-bottom:16px}
+#listTitle:focus{outline-offset:5px}
+.selection-tools{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;background:#edf3fc;border-top:1px solid #dbe5f4;border-bottom:1px solid #dbe5f4;padding:10px 20px;margin-bottom:16px;font-size:13px;color:var(--brand)}
+.selection-tools>div{display:flex;gap:8px}
+.selection-tools button{min-height:36px;padding:7px 12px;font-size:13px}
+.mobile-view{display:none}
+#feedback:empty{display:none}
+.contact-meta p{line-height:1.7}
+@media(max-width:760px){
+ header{display:grid;grid-template-columns:1fr auto;gap:0;padding:12px 16px 0;min-height:0}
+ header>span{display:block;font-size:11px;margin-left:0;white-space:nowrap}
+ header strong{font-size:14px}
+ nav{grid-column:1/-1;justify-content:flex-start;min-height:42px;height:42px;margin:6px 0 0;gap:24px}
+ .page-heading{margin-bottom:18px}
+ .list-heading{padding-bottom:12px;flex-wrap:wrap}
+ .list-heading span{font-size:12px}
+ .mobile-view{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:0 14px 12px}
+ #viewHint{font-size:12px;color:var(--muted)}
+ .view-switch{display:flex;border:1px solid var(--border);border-radius:5px;overflow:hidden}
+ .view-switch button{min-height:44px;padding:8px 13px;border:0;border-radius:0;font-size:13px;background:#fff;color:var(--muted)}
+ .view-switch button+button{border-left:1px solid var(--border)}
+ .view-switch button[aria-pressed=true]{background:#edf2fa;color:var(--brand);font-weight:650}
+ .view-switch button:focus-visible{outline-offset:-3px}
+ .selection-tools{padding:10px 14px;position:sticky;top:0;z-index:5}
+ .selection-tools button{min-height:44px}
+ .table-wrap[data-view=list]{overflow:visible}
+ .table-wrap[data-view=list] table{display:block;min-width:0;width:100%}
+ .table-wrap[data-view=list] thead{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
+ .table-wrap[data-view=list] tbody{display:block}
+ .table-wrap[data-view=list] tr{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr) 44px;gap:5px 12px;padding:13px 14px;border-bottom:1px solid #e5e9ef}
+ .table-wrap[data-view=list] tr:last-child{border-bottom:0}
+ .table-wrap[data-view=list] tr:hover{background:#f5f8fc}
+ .table-wrap[data-view=list] tr:has(input:checked){background:#edf3fc}
+ .table-wrap[data-view=list] td{display:flex;align-items:baseline;gap:6px;padding:0;border:0;min-width:0;white-space:normal;line-height:1.5;font-size:13px;background:transparent;text-align:left}
+ .table-wrap[data-view=list] td::before{content:attr(data-label);color:var(--muted);font-size:11px;font-weight:400;white-space:nowrap}
+ .table-wrap[data-view=list] td:first-child{position:static;grid-column:3;grid-row:1/3;align-items:center;justify-content:center;width:auto;z-index:auto}
+ .table-wrap[data-view=list] td:first-child::before,.table-wrap[data-view=list] td.name::before,.table-wrap[data-view=list] td:nth-child(6)::before{display:none}
+ .table-wrap[data-view=list] td:first-child label{width:44px;min-height:44px}
+ .table-wrap[data-view=list] td.name{grid-column:1/3;grid-row:1;max-width:none;font-size:14px;font-weight:600;line-height:1.5}
+ .table-wrap[data-view=list] td:nth-child(3){grid-column:1;grid-row:2}
+ .table-wrap[data-view=list] td:nth-child(6){grid-column:2;grid-row:2;justify-content:flex-end;align-items:center}
+ .table-wrap[data-view=list] td:nth-child(4){grid-column:1/-1;grid-row:3;font-size:12px;overflow-wrap:anywhere}
+ .table-wrap[data-view=list] td:nth-child(5){grid-column:1;grid-row:4;flex-wrap:wrap;gap:2px 5px}
+ .table-wrap[data-view=list] td:nth-child(7){grid-column:2/-1;grid-row:4;justify-content:flex-end}
+ .table-wrap[data-view=list] td:nth-child(8){grid-column:1/-1;grid-row:5;font-size:12px;color:var(--muted)}
+ .detail{gap:10px}
+}
+@media(prefers-reduced-motion:reduce){button{transition:none}}
+
+</style>
+</head>
+<body>
+<header><strong>衡序 HENGXU</strong><nav aria-label="主导航"><a href="#" aria-current="page">项目</a><a href="#team">团队</a><a href="#account">账户</a></nav><span>林予 · 团队管理员</span></header>
+<main>
+<div class="page-heading"><div><h1>项目工作台</h1><p class="subtitle">追踪项目进度、预算与协作安排</p></div><div class="actions"><button id="createProject" class="primary"><span aria-hidden="true">＋</span> 新建项目</button><button id="exportProjects" class="export">导出 CSV</button></div></div>
+<section class="metrics" aria-label="项目概况"><div class="metric"><span>项目总数</span><strong id="projectCount">8</strong></div><div class="metric"><span>进行中</span><strong id="activeCount">4</strong></div><div class="metric"><span>总预算（CNY）</span><strong id="totalBudget">¥0</strong></div></section>
+<div class="workspace"><section class="panel"><div class="list-heading"><h2 id="listTitle" tabindex="-1">项目列表</h2><span id="listSummary" aria-live="polite"></span></div>
+<div id="selectionTools" class="selection-tools" hidden><span id="selectionCount"></span><div><button id="deleteProject" class="danger">删除所选</button><button id="clearSelection">取消选择</button></div></div>
+<div class="filters" id="filterBar"><div class="filter-field search-field"><label for="search">搜索项目</label><input id="search" type="search" placeholder="名称、负责人或邮箱"></div><div class="filter-field"><label for="statusFilter">状态</label><select id="statusFilter"><option value="all">全部状态</option><option value="进行中">进行中</option><option value="待启动">待启动</option><option value="已完成">已完成</option></select></div><button id="clearFilters">清除筛选</button></div>
+<div class="mobile-view" id="mobileViewToggle"><span id="viewHint">逐条查看全部字段</span><div class="view-switch" role="group" aria-label="项目显示方式"><button id="listView" type="button" aria-pressed="true" aria-controls="tableWrap">列表</button><button id="tableView" type="button" aria-pressed="false" aria-controls="tableWrap">表格</button></div></div>
+<p class="table-hint" id="tableHint">左右滑动查看全部项目字段</p><div class="table-wrap" id="tableWrap" data-view="list" tabindex="0" role="region" aria-label="项目数据"><table aria-label="项目列表"><thead><tr><th scope="col">选择</th><th scope="col">项目名称</th><th scope="col">负责人</th><th scope="col">联系邮箱</th><th scope="col">预算（CNY）</th><th scope="col">状态</th><th scope="col">周变化</th><th scope="col">截止日期</th></tr></thead><tbody id="projectRows"></tbody></table></div>
+<div id="emptyState" class="empty" hidden></div><div id="errorState" class="empty" hidden><span class="empty-symbol error-symbol" aria-hidden="true">!</span><h3>项目加载失败</h3><p>未能获取项目数据，请重试加载。</p><button id="retryData" class="primary">重新加载</button></div><p id="feedback" role="status" aria-live="polite"></p>
+</section>
+<aside class="panel detail"><div><h2>协作联系人</h2><p class="contact-name">周澄</p><p><small>客户成功</small></p></div><div class="contact-meta"><p>zhou.cheng@example.com</p><p>+86 138 0000 1234</p></div><p class="project-note"><strong>项目说明</strong>跨部门协作项目需要提前确认上线窗口，确保产品、设计、开发及客户成功团队在同一节奏下完成验收。部分项目标题较长，请完整保留以便检索。</p></aside></div>
+</main>
+<footer id="team">衡序团队工作台 · 数据仅供本地演示</footer>
+<dialog id="projectDialog" aria-labelledby="dialogTitle"><h2 id="dialogTitle">新建项目</h2><p class="dialog-intro">填写项目基本信息，创建后状态为待启动。</p><form id="projectForm"><div class="field"><label for="projectName">项目名称</label><input id="projectName" name="name" required maxlength="100"></div><div class="field"><label for="projectOwner">负责人</label><input id="projectOwner" name="owner" required></div><div class="field"><label for="projectEmail">联系邮箱</label><input id="projectEmail" name="email" type="email" required></div><div class="field"><label for="projectBudget">预算（CNY）</label><input id="projectBudget" name="budget" type="number" min="0" step="1" required></div><div class="dialog-actions"><button type="button" id="cancelCreate">取消</button><button class="primary" type="submit" id="saveProject">创建项目</button></div></form></dialog>
+<dialog id="deleteDialog" aria-labelledby="deleteTitle"><h2 id="deleteTitle">删除项目？</h2><p>此操作将删除所选项目。本演示中的删除仅影响当前页面内存。</p><div class="dialog-actions"><button id="cancelDelete">取消</button><button id="confirmDelete" class="danger">确认删除</button></div></dialog>
+<script>
+const seedProjects = [
+ {id:1,name:'品牌官网升级与多语言内容迁移',owner:'林予',email:'lin.yu@example.com',budget:128000,status:'进行中',change:4.2,due:'2026-10-18'},
+ {id:2,name:'企业客户数据工作台与权限协作体验改版',owner:'周澄',email:'zhou.cheng@example.com',budget:245000,status:'进行中',change:-2.6,due:'2026-11-06'},
+ {id:3,name:'移动端支付流程优化',owner:'沈未',email:'shen.wei@example.com',budget:76000,status:'待启动',change:0,due:'2026-11-12'},
+ {id:4,name:'秋季产品发布资料准备',owner:'何安',email:'he.an@example.com',budget:38000,status:'已完成',change:6.5,due:'2026-10-01'},
+ {id:5,name:'Design System 组件质量与无障碍检查',owner:'陈汐',email:'chen.xi@example.com',budget:95000,status:'进行中',change:1.8,due:'2026-10-28'},
+ {id:6,name:'客服知识库重构',owner:'苏简',email:'su.jian@example.com',budget:52000,status:'待启动',change:-1.1,due:'2026-11-20'},
+ {id:7,name:'新用户引导与首个项目创建体验',owner:'顾南',email:'gu.nan@example.com',budget:68000,status:'进行中',change:3.4,due:'2026-10-22'},
+ {id:8,name:'季度经营分析报告',owner:'许知',email:'xu.zhi@example.com',budget:42000,status:'已完成',change:0.8,due:'2026-09-30'}
+];
+const stateParam = new URLSearchParams(location.search).get('state');
+let requestFailed = stateParam === 'error';
+let projects = stateParam === 'empty' ? [] : seedProjects.map(p=>({...p}));
+let selected = new Set();
+let mobileLayout = 'list';
+const $ = id => document.getElementById(id);
+const escapeHTML = value => String(value).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+function getVisibleProjects(){const q=$('search').value.trim().toLowerCase();const status=$('statusFilter').value;return projects.filter(p=>(status==='all'||p.status===status)&&[p.name,p.owner,p.email].join(' ').toLowerCase().includes(q));}
+function render(){
+ const list=getVisibleProjects();
+ $('projectCount').textContent=projects.length;$('activeCount').textContent=projects.filter(p=>p.status==='进行中').length;
+ $('totalBudget').textContent='¥'+projects.reduce((sum,p)=>sum+p.budget,0).toLocaleString('zh-CN');
+ $('tableWrap').hidden=requestFailed||list.length===0;$('emptyState').hidden=requestFailed||list.length>0;$('errorState').hidden=!requestFailed;
+ $('filterBar').hidden=requestFailed||projects.length===0;
+ $('selectionTools').hidden=requestFailed||selected.size===0;
+ $('selectionCount').textContent=`已选择 ${selected.size} 个项目`;
+ $('mobileViewToggle').hidden=requestFailed||list.length===0;
+ $('tableHint').hidden=requestFailed||list.length===0||mobileLayout!=='table';
+ $('listSummary').textContent=requestFailed?'数据未加载':`显示 ${list.length} / ${projects.length} 个项目${selected.size ? ' · 已选 '+selected.size+' 个' : ''}`;
+ $('exportProjects').disabled=requestFailed||list.length===0;
+ $('deleteProject').disabled=requestFailed||selected.size===0;
+ $('deleteProject').textContent=selected.size?`删除所选（${selected.size}）`:'删除所选';
+ if(requestFailed){$('projectCount').textContent='—';$('activeCount').textContent='—';$('totalBudget').textContent='—';}
+ if(!requestFailed&&list.length===0){$('emptyState').innerHTML=projects.length===0?'<span class="empty-symbol" aria-hidden="true">+</span><h3>从第一个项目开始</h3><p>在这里追踪项目进度、预算与协作安排。</p><button class="primary" data-empty-action="create">创建第一个项目</button>':'<h3>没有匹配的项目</h3><p>试试其他名称、负责人或邮箱，或清除当前筛选。</p><button data-empty-action="clear">清除筛选</button>'; }
+ $('projectRows').innerHTML=list.map(p=>`<tr><td><label><input type="checkbox" data-id="${p.id}" aria-label="选择${escapeHTML(p.name)}" ${selected.has(p.id)?'checked':''}></label></td><td class="name">${escapeHTML(p.name)}</td><td data-label="负责人">${escapeHTML(p.owner)}</td><td data-label="邮箱">${escapeHTML(p.email)}</td><td data-label="预算">¥${p.budget.toLocaleString('zh-CN')}</td><td><span class="badge ${p.status==='待启动'?'warning':p.status==='已完成'?'done':''}">${p.status}</span></td><td data-label="周变化" class="${p.change<0?'negative':p.change>0?'positive':'neutral'}">${p.change>0?'+':p.change<0?'−':''}${Math.abs(p.change).toFixed(1)}%</td><td data-label="截止">${p.due}</td></tr>`).join('');
+}
+function setMobileView(view){
+ mobileLayout=view;
+ $('tableWrap').dataset.view=view;
+ $('listView').setAttribute('aria-pressed',String(view==='list'));
+ $('tableView').setAttribute('aria-pressed',String(view==='table'));
+ $('viewHint').textContent=view==='list'?'逐条查看全部字段':'横向比较项目指标';
+ $('tableWrap').setAttribute('aria-label',view==='list'?'项目数据':'项目数据，可横向滚动');
+ $('tableHint').hidden=requestFailed||getVisibleProjects().length===0||view!=='table';
+ $('tableWrap').scrollLeft=0;
+}
+$('listView').addEventListener('click',()=>setMobileView('list'));
+$('tableView').addEventListener('click',()=>setMobileView('table'));
+$('clearSelection').addEventListener('click',()=>{selected.clear();render();$('listTitle').focus();});
+$('emptyState').addEventListener('click',e=>{const action=e.target.closest('[data-empty-action]')?.dataset.emptyAction;if(action==='create')$('createProject').click();if(action==='clear')$('clearFilters').click();});
+$('search').addEventListener('input',render);$('statusFilter').addEventListener('change',render);
+$('clearFilters').addEventListener('click',()=>{$('search').value='';$('statusFilter').value='all';render();});
+$('projectRows').addEventListener('change',e=>{if(e.target.matches('[data-id]')){const id=Number(e.target.dataset.id);e.target.checked?selected.add(id):selected.delete(id);render();$('projectRows').querySelector(`[data-id="${id}"]`)?.focus();}});
+$('createProject').addEventListener('click',()=>{$('projectForm').reset();$('projectDialog').showModal();});
+$('cancelCreate').addEventListener('click',()=>$('projectDialog').close());
+$('projectForm').addEventListener('submit',e=>{e.preventDefault();projects.push({id:Date.now(),name:$('projectName').value.trim(),owner:$('projectOwner').value.trim(),email:$('projectEmail').value.trim(),budget:Number($('projectBudget').value),status:'待启动',change:0,due:'2026-12-01'});requestFailed=false;$('search').value='';$('statusFilter').value='all';$('projectDialog').close();$('feedback').textContent='项目已创建';render();});
+$('deleteProject').addEventListener('click',()=>{$('deleteTitle').textContent=`删除 ${selected.size} 个项目？`;$('deleteDialog').showModal();$('cancelDelete').focus();});$('cancelDelete').addEventListener('click',()=>$('deleteDialog').close());
+$('confirmDelete').addEventListener('click',()=>{const count=selected.size;projects=projects.filter(p=>!selected.has(p.id));selected.clear();$('deleteDialog').close();render();$('feedback').textContent=`已删除 ${count} 个项目`;$('listTitle').focus();});
+$('retryData').addEventListener('click',()=>{requestFailed=false;render();$('feedback').textContent='重新加载成功';});
+$('exportProjects').addEventListener('click',()=>{const rows=[['项目名称','负责人','联系邮箱','预算（CNY）','状态','周变化','截止日期'],...getVisibleProjects().map(p=>[p.name,p.owner,p.email,p.budget,p.status,p.change+'%',p.due])];const csv='\ufeff'+rows.map(row=>row.map(v=>'"'+String(v).replace(/"/g,'""')+'"').join(',')).join('\n');const url=URL.createObjectURL(new Blob([csv],{type:'text/csv;charset=utf-8;'}));const a=document.createElement('a');a.href=url;a.download='衡序项目.csv';a.click();URL.revokeObjectURL(url);$('feedback').textContent='CSV 已导出';});
+render();
+setMobileView('list');
+</script>
+</body></html>
